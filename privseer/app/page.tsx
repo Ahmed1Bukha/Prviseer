@@ -30,7 +30,7 @@ export default function Home() {
 
     try {
       // Send entire conversation history
-      const response = await fetch("/api/chat", {
+      const response = await fetch("/api/openai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
