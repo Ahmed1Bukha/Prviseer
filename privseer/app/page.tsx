@@ -34,16 +34,19 @@ export default function Home() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: [...messages, userMessage], // Include full conversation history
+          previousMessages: messages,
+          currentUserMessage: userMessage,
+          instruction: "Resturn you're answer as a string",
         }),
       });
 
       const data = await response.json();
 
+      console.log(data.assistantMessage);
       // Add AI response to chat with timestamp
       const aiMessage: Message = {
         role: "assistant",
-        content: data.message,
+        content: data.output,
         timestamp: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, aiMessage]);
@@ -55,9 +58,6 @@ export default function Home() {
   };
   return (
     <div className="h-[calc(100vh-34px)] flex flex-col">
-      {" "}
-      {/* Subtract navbar height */}
-      {/* Messages area */}
       <div className="flex-1 overflow-y-auto p-4">
         {messages.map((message, index) => (
           <div

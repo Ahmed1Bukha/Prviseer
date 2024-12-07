@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="h-screen">
         <div className="flex flex-col h-full">
-          <Navbar />
+          {/* <Navbar /> */}
 
           {/* Main content with adjusted top padding and height */}
           <main className="flex-1 pt-16">{children}</main>
