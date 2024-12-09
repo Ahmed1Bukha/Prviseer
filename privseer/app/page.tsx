@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { Send } from "lucide-react";
-
+import ReactMarkdown from "react-markdown";
 type Message = {
   content: string;
   role: "user" | "assistant";
@@ -30,13 +30,12 @@ export default function Home() {
 
     try {
       // Send entire conversation history
-      const response = await fetch("/api/openai", {
+      //
+      const response = await fetch("http://localhost:6969/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          previousMessages: messages,
-          currentUserMessage: userMessage,
-          instruction: "Resturn you're answer as a string",
+          question: userMessage.content,
         }),
       });
 
@@ -46,7 +45,7 @@ export default function Home() {
       // Add AI response to chat with timestamp
       const aiMessage: Message = {
         role: "assistant",
-        content: data.output,
+        content: data.response,
         timestamp: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, aiMessage]);
@@ -57,7 +56,7 @@ export default function Home() {
     }
   };
   return (
-    <div className="h-[calc(100vh-34px)] flex flex-col">
+    <div className="h-[calc(100vh-40px)] flex flex-col">
       <div className="flex-1 overflow-y-auto p-4">
         {messages.map((message, index) => (
           <div
@@ -73,7 +72,11 @@ export default function Home() {
                   : "bg-gray-200 text-gray-800"
               }`}
             >
-              <div>{message.content}</div>
+              {/* <div>{message.content}</div> */}
+              <div className="markdown-container">
+                <ReactMarkdown>{message.content}</ReactMarkdown>
+              </div>
+
               <div className="text-xs opacity-70 mt-1">
                 {new Date(message.timestamp).toLocaleTimeString()}
               </div>

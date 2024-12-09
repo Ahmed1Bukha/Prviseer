@@ -2,12 +2,13 @@ from flask import Flask, request, jsonify
 import os
 import time
 import google.generativeai as genai
+from flask_cors import CORS
 
 app = Flask(__name__)
 
 os.environ['GEMINI_API_KEY'] = '' # Replace with your actual API key
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-
+CORS(app)
 
 def upload_to_gemini(path, mime_type=None):
     """Uploads the given file to Gemini."""
@@ -80,10 +81,7 @@ model = genai.GenerativeModel(
       - Prioritize accuracy and document fidelity
       - Provide practical, implementable guidance
 
-    Additional Instruction:
-      - Provide responses in plain text format
-      - Do not use markdown or code block formatting in responses
-      - Present code and structured content in a clear, readable plain text manner
+
 
     Limitations:
     - Responses are based solely on the SDAIA document
@@ -97,7 +95,7 @@ model = genai.GenerativeModel(
 )
 
 files = [
-    upload_to_gemini("PoliciesEn001.pdf", mime_type="application/pdf"),  # Ensure file is in the same directory or provide full path
+    upload_to_gemini("/Users/bukha/Documents/GitHub/Prviseer/privseer/app/gemApi/PoliciesEn001.pdf", mime_type="application/pdf"),  # Ensure file is in the same directory or provide full path
 ]
 
 wait_for_files_active(files)
@@ -127,4 +125,4 @@ def ask_api():
 
 
 
-app.run(debug=True, host='0.0.0.0', port=5000)
+app.run(debug=True, host='0.0.0.0', port=6969)
