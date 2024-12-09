@@ -16,7 +16,7 @@ import { NextRequest, NextResponse } from "next/server";
 //   return NextResponse.json(response, { status: 200 });
 // }
 
-export async function POST(req: NextRequest, res) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     // Access your API key by creating an instance of GoogleGenerativeAI we'll call it GenAI
